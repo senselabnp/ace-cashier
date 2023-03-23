@@ -1,15 +1,15 @@
 <?php
 
-namespace Acelle\Cashier\Services;
+namespace Ace\Cashier\Services;
 
 use Illuminate\Support\Facades\Log;
-use Acelle\Cashier\Interfaces\PaymentGatewayInterface;
+use Ace\Cashier\Interfaces\PaymentGatewayInterface;
 use Carbon\Carbon;
-use Acelle\Cashier\Cashier;
-use Acelle\Cashier\Library\AutoBillingData;
-use Acelle\Model\Invoice;
-use Acelle\Cashier\Library\TransactionVerificationResult;
-use Acelle\Model\Transaction;
+use Ace\Cashier\Cashier;
+use Ace\Cashier\Library\AutoBillingData;
+use Ace\Model\Invoice;
+use Ace\Cashier\Library\TransactionVerificationResult;
+use Ace\Model\Transaction;
 
 class PaystackPaymentGateway implements PaymentGatewayInterface
 {
@@ -52,7 +52,7 @@ class PaystackPaymentGateway implements PaymentGatewayInterface
 
     public function getSettingsUrl() : string
     {
-        return action("\Acelle\Cashier\Controllers\PaystackController@settings");
+        return action("\Ace\Cashier\Controllers\PaystackController@settings");
     }
 
     public function validate()
@@ -101,7 +101,7 @@ class PaystackPaymentGateway implements PaymentGatewayInterface
      */
     public function getAutoBillingDataUpdateUrl($returnUrl='/') : string
     {
-        return \Acelle\Cashier\Cashier::lr_action("\Acelle\Cashier\Controllers\PaystackController@autoBillingDataUpdate", [
+        return \Ace\Cashier\Cashier::lr_action("\Ace\Cashier\Controllers\PaystackController@autoBillingDataUpdate", [
             'return_url' => $returnUrl,
         ]);
     }
@@ -113,7 +113,7 @@ class PaystackPaymentGateway implements PaymentGatewayInterface
      */
     public function getCheckoutUrl($invoice) : string
     {
-        return \Acelle\Cashier\Cashier::lr_action("\Acelle\Cashier\Controllers\PaystackController@checkout", [
+        return \Ace\Cashier\Cashier::lr_action("\Ace\Cashier\Controllers\PaystackController@checkout", [
             'invoice_uid' => $invoice->uid,
         ]);
     }

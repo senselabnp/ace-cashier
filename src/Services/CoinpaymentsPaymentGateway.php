@@ -1,13 +1,13 @@
 <?php
-namespace Acelle\Cashier\Services;
+namespace Ace\Cashier\Services;
 
-use Acelle\Cashier\Interfaces\PaymentGatewayInterface;
+use Ace\Cashier\Interfaces\PaymentGatewayInterface;
 use Carbon\Carbon;
-use Acelle\Cashier\Cashier;
-use Acelle\Cashier\Library\CoinPayment\CoinpaymentsAPI;
-use Acelle\Model\Invoice;
-use Acelle\Cashier\Library\TransactionVerificationResult;
-use Acelle\Model\Transaction;
+use Ace\Cashier\Cashier;
+use Ace\Cashier\Library\CoinPayment\CoinpaymentsAPI;
+use Ace\Model\Invoice;
+use Ace\Cashier\Library\TransactionVerificationResult;
+use Ace\Model\Transaction;
 
 class CoinpaymentsPaymentGateway implements PaymentGatewayInterface
 {
@@ -73,12 +73,12 @@ class CoinpaymentsPaymentGateway implements PaymentGatewayInterface
 
     public function getSettingsUrl() : string
     {
-        return action("\Acelle\Cashier\Controllers\CoinpaymentsController@settings");
+        return action("\Ace\Cashier\Controllers\CoinpaymentsController@settings");
     }
 
     public function getCheckoutUrl($invoice) : string
     {
-        return action("\Acelle\Cashier\Controllers\CoinpaymentsController@checkout", [
+        return action("\Ace\Cashier\Controllers\CoinpaymentsController@checkout", [
             'invoice_uid' => $invoice->uid,
         ]);
     }

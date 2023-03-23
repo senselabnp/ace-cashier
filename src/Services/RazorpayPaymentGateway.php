@@ -1,14 +1,14 @@
 <?php
 
-namespace Acelle\Cashier\Services;
+namespace Ace\Cashier\Services;
 
 use Illuminate\Support\Facades\Log;
-use Acelle\Cashier\Interfaces\PaymentGatewayInterface;
+use Ace\Cashier\Interfaces\PaymentGatewayInterface;
 use Carbon\Carbon;
-use Acelle\Cashier\Cashier;
-use Acelle\Model\Invoice;
-use Acelle\Cashier\Library\TransactionVerificationResult;
-use Acelle\Model\Transaction;
+use Ace\Cashier\Cashier;
+use Ace\Model\Invoice;
+use Ace\Cashier\Library\TransactionVerificationResult;
+use Ace\Model\Transaction;
 
 class RazorpayPaymentGateway implements PaymentGatewayInterface
 {
@@ -67,12 +67,12 @@ class RazorpayPaymentGateway implements PaymentGatewayInterface
 
     public function getSettingsUrl() : string
     {
-        return action("\Acelle\Cashier\Controllers\RazorpayController@settings");
+        return action("\Ace\Cashier\Controllers\RazorpayController@settings");
     }
 
     public function getCheckoutUrl($invoice) : string
     {
-        return action("\Acelle\Cashier\Controllers\RazorpayController@checkout", [
+        return action("\Ace\Cashier\Controllers\RazorpayController@checkout", [
             'invoice_uid' => $invoice->uid,
         ]);
     }

@@ -1,10 +1,10 @@
 <?php
 
-namespace Acelle\Cashier\Interfaces;
+namespace Ace\Cashier\Interfaces;
 
-use Acelle\Model\Invoice;
-use Acelle\Model\Transaction;
-use Acelle\Cashier\Library\TransactionVerificationResult;
+use Ace\Model\Invoice;
+use Ace\Model\Transaction;
+use Ace\Cashier\Library\TransactionVerificationResult;
 
 interface PaymentGatewayInterface
 {

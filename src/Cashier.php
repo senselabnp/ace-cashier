@@ -1,6 +1,6 @@
 <?php
 
-namespace Acelle\Cashier;
+namespace Ace\Cashier;
 
 use Illuminate\Support\ServiceProvider;
 

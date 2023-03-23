@@ -1,17 +1,17 @@
 <?php
 
-namespace Acelle\Cashier\Services;
+namespace Ace\Cashier\Services;
 
 use Stripe\Card as StripeCard;
 use Stripe\Token as StripeToken;
 use Stripe\Customer as StripeCustomer;
 use Stripe\Subscription as StripeSubscription;
-use Acelle\Cashier\Cashier;
-use Acelle\Cashier\Interfaces\PaymentGatewayInterface;
+use Ace\Cashier\Cashier;
+use Ace\Cashier\Interfaces\PaymentGatewayInterface;
 use Carbon\Carbon;
-use Acelle\Model\Invoice;
-use Acelle\Cashier\Library\TransactionVerificationResult;
-use Acelle\Model\Transaction;
+use Ace\Model\Invoice;
+use Ace\Cashier\Library\TransactionVerificationResult;
+use Ace\Model\Transaction;
 
 class OfflinePaymentGateway implements PaymentGatewayInterface
 {
@@ -63,12 +63,12 @@ class OfflinePaymentGateway implements PaymentGatewayInterface
 
     public function getSettingsUrl() : string
     {
-        return action("\Acelle\Cashier\Controllers\OfflineController@settings");
+        return action("\Ace\Cashier\Controllers\OfflineController@settings");
     }
 
     public function getCheckoutUrl($invoice) : string
     {
-        return action("\Acelle\Cashier\Controllers\OfflineController@checkout", [
+        return action("\Ace\Cashier\Controllers\OfflineController@checkout", [
             'invoice_uid' => $invoice->uid,
         ]);
     }

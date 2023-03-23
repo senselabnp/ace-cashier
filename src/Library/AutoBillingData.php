@@ -1,10 +1,10 @@
 <?php
 
-namespace Acelle\Cashier\Library;
+namespace Ace\Cashier\Library;
 
 use Exception;
-use Acelle\Cashier\Interfaces\PaymentGatewayInterface;
-use Acelle\Library\Facades\Billing;
+use Ace\Cashier\Interfaces\PaymentGatewayInterface;
+use Ace\Library\Facades\Billing;
 
 class AutoBillingData
 {

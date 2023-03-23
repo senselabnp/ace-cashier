@@ -1,9 +1,9 @@
 <?php
 
-namespace Acelle\Cashier;
+namespace Ace\Cashier;
 
 use Illuminate\Support\ServiceProvider;
-use Acelle\Library\Facades\Hook;
+use Ace\Library\Facades\Hook;
 
 class CashierServiceProvider extends ServiceProvider
 {
@@ -33,13 +33,13 @@ class CashierServiceProvider extends ServiceProvider
 
         // assets
         $this->publishes([
-            __DIR__.'/../assets' => public_path('vendor/acelle-cashier'),
+            __DIR__.'/../assets' => public_path('vendor/Ace-cashier'),
         ], 'public');
 
         Hook::register('add_translation_file', function() {
             return [
                 "id" => 'cashier_message',
-                "plugin_name" => "Acelle/Cashier",
+                "plugin_name" => "Ace/Cashier",
                 "file_title" => "Cashier: messages",
                 "translation_folder" => storage_path('app/cashier/lang'),
                 "file_name" => "messages.php",

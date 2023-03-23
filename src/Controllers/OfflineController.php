@@ -1,13 +1,13 @@
 <?php
 
-namespace Acelle\Cashier\Controllers;
+namespace Ace\Cashier\Controllers;
 
-use Acelle\Http\Controllers\Controller;
+use Ace\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Acelle\Model\Setting;
-use Acelle\Library\Facades\Billing;
-use Acelle\Cashier\Library\TransactionVerificationResult;
-use Acelle\Model\Invoice;
+use Ace\Model\Setting;
+use Ace\Library\Facades\Billing;
+use Ace\Cashier\Library\TransactionVerificationResult;
+use Ace\Model\Invoice;
 
 class OfflineController extends Controller
 {

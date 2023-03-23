@@ -1,6 +1,6 @@
 <?php
 
-namespace Acelle\Cashier\Http\Middleware;
+namespace Ace\Cashier\Http\Middleware;
 
 use Closure;
 use Stripe\WebhookSignature;

@@ -1,13 +1,13 @@
 <?php
 
-namespace Acelle\Cashier\Services;
+namespace Ace\Cashier\Services;
 
-use Acelle\Cashier\Interfaces\PaymentGatewayInterface;
-use Acelle\Cashier\Cashier;
+use Ace\Cashier\Interfaces\PaymentGatewayInterface;
+use Ace\Cashier\Cashier;
 use Carbon\Carbon;
-use Acelle\Model\Invoice;
-use Acelle\Cashier\Library\TransactionVerificationResult;
-use Acelle\Model\Transaction;
+use Ace\Model\Invoice;
+use Ace\Cashier\Library\TransactionVerificationResult;
+use Ace\Model\Transaction;
 
 class BraintreePaymentGateway implements PaymentGatewayInterface
 {
@@ -63,7 +63,7 @@ class BraintreePaymentGateway implements PaymentGatewayInterface
 
     public function getSettingsUrl() : string
     {
-        return action("\Acelle\Cashier\Controllers\BraintreeController@settings");
+        return action("\Ace\Cashier\Controllers\BraintreeController@settings");
     }
 
     public function validate()
@@ -271,7 +271,7 @@ class BraintreePaymentGateway implements PaymentGatewayInterface
      */
     public function getCheckoutUrl($invoice) : string
     {
-        return \Acelle\Cashier\Cashier::lr_action("\Acelle\Cashier\Controllers\BraintreeController@checkout", [
+        return \Ace\Cashier\Cashier::lr_action("\Ace\Cashier\Controllers\BraintreeController@checkout", [
             'invoice_uid' => $invoice->uid,
         ]);
     }
@@ -288,7 +288,7 @@ class BraintreePaymentGateway implements PaymentGatewayInterface
      */
     public function getAutoBillingDataUpdateUrl($returnUrl='/') : string
     {
-        return \Acelle\Cashier\Cashier::lr_action("\Acelle\Cashier\Controllers\BraintreeController@autoBillingDataUpdate", [
+        return \Ace\Cashier\Cashier::lr_action("\Ace\Cashier\Controllers\BraintreeController@autoBillingDataUpdate", [
             'return_url' => $returnUrl,
         ]);
     }

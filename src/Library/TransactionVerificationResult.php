@@ -1,6 +1,6 @@
 <?php
 
-namespace Acelle\Cashier\Library;
+namespace Ace\Cashier\Library;
 
 class TransactionVerificationResult
 {

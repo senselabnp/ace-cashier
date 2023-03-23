@@ -1,18 +1,18 @@
 <?php
 
-namespace Acelle\Cashier\Services;
+namespace Ace\Cashier\Services;
 
-use Acelle\Cashier\Cashier;
-use Acelle\Cashier\Interfaces\PaymentGatewayInterface;
+use Ace\Cashier\Cashier;
+use Ace\Cashier\Interfaces\PaymentGatewayInterface;
 use Carbon\Carbon;
 use Sample\PayPalClient;
 use PayPalCheckoutSdk\Orders\OrdersGetRequest;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Core\ProductionEnvironment;
-use Acelle\Model\Invoice;
-use Acelle\Cashier\Library\TransactionVerificationResult;
-use Acelle\Model\Transaction;
+use Ace\Model\Invoice;
+use Ace\Cashier\Library\TransactionVerificationResult;
+use Ace\Model\Transaction;
 
 class PaypalPaymentGateway implements PaymentGatewayInterface
 {
@@ -76,12 +76,12 @@ class PaypalPaymentGateway implements PaymentGatewayInterface
 
     public function getSettingsUrl() : string
     {
-        return action("\Acelle\Cashier\Controllers\PaypalController@settings");
+        return action("\Ace\Cashier\Controllers\PaypalController@settings");
     }
 
     public function getCheckoutUrl($invoice) : string
     {
-        return action("\Acelle\Cashier\Controllers\PaypalController@checkout", [
+        return action("\Ace\Cashier\Controllers\PaypalController@checkout", [
             'invoice_uid' => $invoice->uid,
         ]);
     }

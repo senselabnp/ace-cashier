@@ -1,19 +1,19 @@
 <?php
 
-namespace Acelle\Cashier\Services;
+namespace Ace\Cashier\Services;
 
 use Illuminate\Support\Facades\Log;
 use Stripe\Card as StripeCard;
 use Stripe\Token as StripeToken;
 use Stripe\Customer as StripeCustomer;
 use Stripe\Subscription as StripeSubscription;
-use Acelle\Cashier\Interfaces\PaymentGatewayInterface;
+use Ace\Cashier\Interfaces\PaymentGatewayInterface;
 use Carbon\Carbon;
-use Acelle\Cashier\Cashier;
-use Acelle\Cashier\Library\AutoBillingData;
-use Acelle\Model\Invoice;
-use Acelle\Cashier\Library\TransactionVerificationResult;
-use Acelle\Model\Transaction;
+use Ace\Cashier\Cashier;
+use Ace\Cashier\Library\AutoBillingData;
+use Ace\Model\Invoice;
+use Ace\Cashier\Library\TransactionVerificationResult;
+use Ace\Model\Transaction;
 
 class StripePaymentGateway implements PaymentGatewayInterface
 {
@@ -85,12 +85,12 @@ class StripePaymentGateway implements PaymentGatewayInterface
 
     public function getSettingsUrl() : string
     {
-        return action("\Acelle\Cashier\Controllers\StripeController@settings");
+        return action("\Ace\Cashier\Controllers\StripeController@settings");
     }
 
     public function getAutoBillingDataUpdateUrl($returnUrl='/') : string
     {
-        return \Acelle\Cashier\Cashier::lr_action("\Acelle\Cashier\Controllers\StripeController@autoBillingDataUpdate", [
+        return \Ace\Cashier\Cashier::lr_action("\Ace\Cashier\Controllers\StripeController@autoBillingDataUpdate", [
             'return_url' => $returnUrl,
         ]);
     }
@@ -141,7 +141,7 @@ class StripePaymentGateway implements PaymentGatewayInterface
                 $payment_intent_id = $e->getError()->payment_intent->id;
                 // $payment_intent = \Stripe\PaymentIntent::retrieve($payment_intent_id);
 
-                $authPaymentLink = action("\Acelle\Cashier\Controllers\StripeController@paymentAuth", [
+                $authPaymentLink = action("\Ace\Cashier\Controllers\StripeController@paymentAuth", [
                     'invoice_uid' => $invoice->uid,
                     'payment_intent_id' => $payment_intent_id,
                 ]);
@@ -221,7 +221,7 @@ class StripePaymentGateway implements PaymentGatewayInterface
      */
     public function getCheckoutUrl($invoice) : string
     {
-        return action("\Acelle\Cashier\Controllers\StripeController@checkout", [
+        return action("\Ace\Cashier\Controllers\StripeController@checkout", [
             'invoice_uid' => $invoice->uid,
         ]);
     }

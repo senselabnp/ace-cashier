@@ -6,7 +6,7 @@
 
     <div class="page-title">
         <ul class="breadcrumb breadcrumb-caret position-right">
-            <li class="breadcrumb-item"><a href="{{ \Acelle\Cashier\Cashier::lr_action("HomeController@index") }}">{{ trans('messages.home') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ \Ace\Cashier\Cashier::lr_action("HomeController@index") }}">{{ trans('messages.home') }}</a></li>
             <li class="breadcrumb-item active">{{ trans('messages.subscription') }}</li>
         </ul>
     </div>
@@ -28,7 +28,7 @@
                 
             <div class="d-flex align-items-center">
                 <form method="POST"
-                    action="{{ \Acelle\Cashier\Cashier::lr_action('\Acelle\Cashier\Controllers\OfflineController@claim', [
+                    action="{{ \Ace\Cashier\Cashier::lr_action('\Ace\Cashier\Controllers\OfflineController@claim', [
                         'invoice_uid' => $invoice->uid
                     ]) }}"
                 >

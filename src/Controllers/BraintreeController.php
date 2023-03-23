@@ -1,15 +1,15 @@
 <?php
 
-namespace Acelle\Cashier\Controllers;
+namespace Ace\Cashier\Controllers;
 
-use Acelle\Http\Controllers\Controller;
+use Ace\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Acelle\Cashier\Services\BraintreePaymentGateway;
-use Acelle\Library\Facades\Billing;
-use Acelle\Model\Setting;
-use Acelle\Cashier\Library\AutoBillingData;
-use Acelle\Model\Invoice;
-use Acelle\Cashier\Library\TransactionVerificationResult;
+use Ace\Cashier\Services\BraintreePaymentGateway;
+use Ace\Library\Facades\Billing;
+use Ace\Model\Setting;
+use Ace\Cashier\Library\AutoBillingData;
+use Ace\Model\Invoice;
+use Ace\Cashier\Library\TransactionVerificationResult;
 
 class BraintreeController extends Controller
 {
@@ -67,7 +67,7 @@ class BraintreeController extends Controller
     /**
      * Get current payment service.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Ace\Cashier\Interfaces\PaymentGatewayInterface
      **/
     public function getPaymentService()
     {

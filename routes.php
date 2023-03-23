@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware' => ['web'], 'namespace' => 'Acelle\Cashier\Controllers'], function () {
+Route::group(['middleware' => ['web'], 'namespace' => 'Ace\Cashier\Controllers'], function () {
     // direct
     Route::match(['get', 'post'], '/cashier/offline/settings', 'OfflineController@settings');
     Route::get('/cashier/offline/checkout/{invoice_uid}', 'OfflineController@checkout');
