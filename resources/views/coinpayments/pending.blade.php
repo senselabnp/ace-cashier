@@ -1,4 +1,4 @@
-@extends('layouts.core.frontend')
+@extends('layouts.frontend')
 
 @section('title', trans('messages.subscriptions'))
 
@@ -103,7 +103,7 @@ display: block;" href="{{ $service->getData($invoice)['status_url'] }}">
             <div class="my-4">
                 <hr>
                 <a class="" link-method="POST" link-confirm="{{ trans('messages.invoice.cancel.confirm') }}"
-                    href="{{ action('SubscriptionController@cancelInvoice', [
+                    href="{{ action('AccountSubscriptionController@cancelInvoice', [
                         'invoice_uid' => $invoice->uid,
                     ]) }}">
                     {{ trans('messages.subscription.cancel_now_change_other_plan') }}
@@ -112,13 +112,9 @@ display: block;" href="{{ $service->getData($invoice)['status_url'] }}">
         </div>
         <div class="col-md-2"></div>
         <div class="col-md-4">
-            <div class="card shadow-sm rounded-3 px-2 py-2 mb-4">
-                <div class="card-body p-4">
-                    @include('invoices.bill', [
-                        'bill' => $invoice->getBillingInfo(),
-                    ])
-                </div>
-            </div>
+            @include('invoices.bill', [
+                'bill' => $invoice->getBillingInfo(),
+            ])
         </div>
     </div>
 @endsection

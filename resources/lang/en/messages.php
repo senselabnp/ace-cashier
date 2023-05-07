@@ -22,15 +22,6 @@
         <p class="text-danger" style="color: red">* Above is sample payment information, you can change it in your payment gateway setting page</p>
     ',
     'stripe' => 'Stripe',
-    'stripe.current_card' => 'Your current card',
-    'stripe.pay_with_new_card' => 'Pay with new card',
-    'stripe.pay_with_this_card' => 'Pay with this card',
-    'stripe.new_card' => 'New Card',
-    'stripe.new_card.intro' => 'Fill your card information below and click Pay button.',
-    'card.last4' => 'Last 4 number',
-    'card.brand' => 'Brand',
-    'stripe.click_to_auth' => 'Click <a href=":link">here</a> to authenticate the payment.',
-    'stripe.pay' => 'Pay',
     'stripe.secret_key' => 'Secret key',
     'stripe.publishable_key' => 'Publishable key',
     'stripe.intro' => 'Stripe is a technology company based in San Francisco, California.
@@ -107,7 +98,6 @@
         <br> Your browser will redirect to next page shortly.',
     'paystack.checkout.processing_payment' => 'Processing your payment... please wait!',
     'paypal' => 'Paypal',
-    'paypal.user.description' => 'Pay for your subscription & services using your PayPal account.',
     'paypal.environment' => 'Environment',
     'paypal.client_id' => 'Client ID',
     'paypal.secret' => 'Secret',
@@ -129,29 +119,9 @@
     'razorpay.pay_with_razorpay' => 'Pay with Razorpay',
     'payment.options' => 'Payment Options',
     'go_back' => 'Go back',
-    'stripe.no_card' => 'Fill your card information below and click Pay button.',
+    'stripe.no_card' => 'You have no card. Click the button below to add one.',
     'gateway.updated' => 'Gateway settings were updated',
     'save_and_enable' => 'Save & Enable',
     'connect' => 'Connect',
     'cancel' => 'Cancel',
-    'braintree.description' => 'Receive payments from Credit / Debit card to your Braintree account',
-    'coinpayments.description' => 'Receive payment from a cryptocurrency like Bitcoin, Monero, ZCash, etc.',
-    'offline.description' => 'Receive payments outside of the application',
-    'paypal.description' => 'PayPal is the fast/safe way to send money, make an online payment, receive money or set up a merchant account',
-    'paystack.description' => 'Receive payments from Credit / Debit card to your Paystack account',
-    'razorpay.description' => 'Start Accepting Payments Instantly with Razorpay\'s
-        Free Payment Gateway. Supports Netbanking, Credit, Debit Cards etc',
-    'stripe.description' => 'Receive payments from Credit / Debit card to your Stripe account',
-    'braintree.short_description' => 'Pay for your subscription & services using your debit
-        or credit cards. Auto billing is supported',
-    'coinpayments.short_description' => 'Pay for your subscription & services with a cryptocurrency, via coinpayment.com',
-    'offline.short_description' => 'Pay for your subscription & services outside of
-        the application, following the instructions provided during checkout',
-    'paypal.short_description' => 'Pay for your subscription & services using your PayPal account.',
-    'paystack.short_description' => 'Pay for your subscription & services using your debit
-        or credit cards. Auto billing is supported',
-    'razorpay.short_description' => 'Pay for your subscription & services using your debit
-        or credit cards. Auto billing is not supported',
-    'stripe.short_description' => 'Pay for your subscription & services using your debit
-        or credit cards. Auto billing is supported',
 );

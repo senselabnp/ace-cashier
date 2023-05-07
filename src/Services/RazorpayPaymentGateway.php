@@ -3,11 +3,11 @@
 namespace Ace\Cashier\Services;
 
 use Illuminate\Support\Facades\Log;
-use Ace\Cashier\Interfaces\PaymentGatewayInterface;
+use Ace\Library\Contracts\PaymentGatewayInterface;
 use Carbon\Carbon;
 use Ace\Cashier\Cashier;
 use Ace\Model\Invoice;
-use Ace\Cashier\Library\TransactionVerificationResult;
+use Ace\Library\TransactionVerificationResult;
 use Ace\Model\Transaction;
 
 class RazorpayPaymentGateway implements PaymentGatewayInterface
@@ -15,8 +15,6 @@ class RazorpayPaymentGateway implements PaymentGatewayInterface
     public $keyId;
     public $keySecret;
     public $active=false;
-
-    public const TYPE = 'razorpay';
 
     /**
      * Construction
@@ -32,22 +30,17 @@ class RazorpayPaymentGateway implements PaymentGatewayInterface
 
     public function getName() : string
     {
-        return trans('cashier::messages.razorpay');
+        return 'Razorpay';
     }
 
     public function getType() : string
     {
-        return self::TYPE;
+        return 'razorpay';
     }
 
     public function getDescription() : string
     {
-        return trans('cashier::messages.razorpay.description');
-    }
-
-    public function getShortDescription() : string
-    {
-        return trans('cashier::messages.razorpay.short_description');
+        return 'Start Accepting Payments Instantly with Razorpay\'s Free Payment Gateway. Supports Netbanking, Credit, Debit Cards etc';
     }
 
     public function validate()
@@ -201,8 +194,8 @@ class RazorpayPaymentGateway implements PaymentGatewayInterface
         return $this->request('orders', 'POST', [
             "content-type" => "application/json"
         ], [
-            "amount" => $this->convertPrice($invoice->total(), $invoice->getCurrencyCode()),
-            "currency" => $invoice->getCurrencyCode(),
+            "amount" => $this->convertPrice($invoice->total(), $invoice->currency->code),
+            "currency" => $invoice->currency->code,
             "receipt" => "rcptid_" . $invoice->uid,
             "payment_capture" => 1,
         ]);
@@ -223,13 +216,11 @@ class RazorpayPaymentGateway implements PaymentGatewayInterface
         if (isset($data["customer"])) {
             $customer = $this->request('customers/' . $data["customer"]["id"], 'GET');
         } else {
-            $bill = $invoice->getBillingInfo();
-
             $customer = $this->request('customers', 'POST', [
                 "Content-Type" => "application/json"
             ], [
-                "name" => $bill['billing_display_name'],
-                "email" => $bill['billing_email'],
+                "name" => $invoice->customer->user->displayName(),
+                "email" => $invoice->customer->user->email,
                 "contact" => "",
                 "fail_existing" => "0",
                 "notes" => [
@@ -313,10 +304,5 @@ class RazorpayPaymentGateway implements PaymentGatewayInterface
         if ($sig != $request->razorpay_signature) {
             throw new \Exception('Can not verify remote order: ' . $request->razorpay_order_id);
         }
-    }
-
-    public function getMinimumChargeAmount($currency)
-    {
-        return 0;
     }
 }

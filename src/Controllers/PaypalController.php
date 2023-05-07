@@ -4,11 +4,15 @@ namespace Ace\Cashier\Controllers;
 
 use Ace\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log as LaravelLog;
+use Ace\Cashier\Cashier;
 use Ace\Cashier\Services\PaypalPaymentGateway;
 use Ace\Library\Facades\Billing;
 use Ace\Model\Setting;
 use Ace\Model\Invoice;
-use Ace\Cashier\Library\TransactionVerificationResult;
+use Ace\Library\TransactionVerificationResult;
+use Ace\Model\Transaction;
+use Ace\Library\AutoBillingData;
 
 class PaypalController extends Controller
 {
@@ -77,6 +81,21 @@ class PaypalController extends Controller
     }
 
     /**
+     * Get return url.
+     *
+     * @return string
+     **/
+    public function getReturnUrl(Request $request)
+    {
+        $return_url = $request->session()->get('checkout_return_url', Cashier::public_url('/'));
+        if (!$return_url) {
+            $return_url = Cashier::public_url('/');
+        }
+
+        return $return_url;
+    }
+
+    /**
      * Subscription checkout page.
      *
      * @param \Illuminate\Http\Request $request
@@ -85,6 +104,7 @@ class PaypalController extends Controller
     **/
     public function checkout(Request $request, $invoice_uid)
     {
+        $customer = $request->user()->customer;
         $service = $this->getPaymentService();
         $invoice = Invoice::findByUid($invoice_uid);
         
@@ -104,7 +124,7 @@ class PaypalController extends Controller
                 return new TransactionVerificationResult(TransactionVerificationResult::RESULT_DONE);
             });
 
-            return redirect()->away(Billing::getReturnUrl());;
+            return redirect()->action('AccountSubscriptionController@index');
         }
 
         if ($request->isMethod('post')) {
@@ -113,7 +133,7 @@ class PaypalController extends Controller
             ]);
 
             // return back
-            return redirect()->away(Billing::getReturnUrl());;
+            return redirect()->action('AccountSubscriptionController@index');
         }
 
         return view('cashier::paypal.checkout', [

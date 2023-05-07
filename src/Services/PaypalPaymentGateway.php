@@ -3,7 +3,7 @@
 namespace Ace\Cashier\Services;
 
 use Ace\Cashier\Cashier;
-use Ace\Cashier\Interfaces\PaymentGatewayInterface;
+use Ace\Library\Contracts\PaymentGatewayInterface;
 use Carbon\Carbon;
 use Sample\PayPalClient;
 use PayPalCheckoutSdk\Orders\OrdersGetRequest;
@@ -11,7 +11,7 @@ use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Core\ProductionEnvironment;
 use Ace\Model\Invoice;
-use Ace\Cashier\Library\TransactionVerificationResult;
+use Ace\Library\TransactionVerificationResult;
 use Ace\Model\Transaction;
 
 class PaypalPaymentGateway implements PaymentGatewayInterface
@@ -21,9 +21,7 @@ class PaypalPaymentGateway implements PaymentGatewayInterface
     public $client;
     public $environment;
     public $active=false;
-
-    public const TYPE = 'paypal';
-
+    
     public function __construct($environment, $clientId, $secret)
     {
         $this->environment = $environment;
@@ -41,22 +39,17 @@ class PaypalPaymentGateway implements PaymentGatewayInterface
 
     public function getName() : string
     {
-        return trans('cashier::messages.paypal');
+        return 'Paypal';
     }
 
     public function getType() : string
     {
-        return self::TYPE;
+        return 'paypal';
     }
 
     public function getDescription() : string
     {
-        return trans('cashier::messages.paypal.description');
-    }
-
-    public function getShortDescription() : string
-    {
-        return trans('cashier::messages.paypal.short_description');
+        return 'PayPal is the fast/safe way to send money, make an online payment, receive money or set up a merchant account';
     }
 
     public function validate()
@@ -197,10 +190,5 @@ class PaypalPaymentGateway implements PaymentGatewayInterface
         if ($response->statusCode != 200 || $response->result->status != 'COMPLETED') {
             throw new \Exception('Something went wrong:' . json_encode($response->result));
         }
-    }
-
-    public function getMinimumChargeAmount($currency)
-    {
-        return 0;
     }
 }

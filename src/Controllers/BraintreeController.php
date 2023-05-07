@@ -4,12 +4,15 @@ namespace Ace\Cashier\Controllers;
 
 use Ace\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log as LaravelLog;
+use Ace\Cashier\Cashier;
 use Ace\Cashier\Services\BraintreePaymentGateway;
 use Ace\Library\Facades\Billing;
 use Ace\Model\Setting;
-use Ace\Cashier\Library\AutoBillingData;
+use Ace\Library\AutoBillingData;
 use Ace\Model\Invoice;
-use Ace\Cashier\Library\TransactionVerificationResult;
+use Ace\Library\TransactionVerificationResult;
+use Ace\Model\Transaction;
 
 class BraintreeController extends Controller
 {
@@ -67,7 +70,7 @@ class BraintreeController extends Controller
     /**
      * Get current payment service.
      *
-     * @return \Ace\Cashier\Interfaces\PaymentGatewayInterface
+     * @return \Illuminate\Http\Response
      **/
     public function getPaymentService()
     {
@@ -83,9 +86,9 @@ class BraintreeController extends Controller
     **/
     public function checkout(Request $request, $invoice_uid)
     {
+        $customer = $request->user()->customer;
         $service = $this->getPaymentService();
         $invoice = Invoice::findByUid($invoice_uid);
-        $customer = $invoice->customer;
         
         // Save return url
         if ($request->return_url) {
@@ -103,7 +106,7 @@ class BraintreeController extends Controller
                 return new TransactionVerificationResult(TransactionVerificationResult::RESULT_DONE);
             });
 
-            return redirect()->away(Billing::getReturnUrl());
+            return redirect()->action('AccountSubscriptionController@index');
         }
 
         // Customer has no card
@@ -120,7 +123,7 @@ class BraintreeController extends Controller
             $result = $service->autoCharge($invoice);
 
             // return back
-            return redirect()->away(Billing::getReturnUrl());;
+            return redirect()->action('AccountSubscriptionController@index');
         }
 
         return view('cashier::braintree.charging', [
@@ -167,11 +170,7 @@ class BraintreeController extends Controller
             
             // return to billing page
             $request->session()->flash('alert-success', trans('cashier::messages.braintree.connected'));
-            if ($request->return_url) {
-                return redirect()->away($request->return_url);
-            } else {
-                return redirect()->away(Billing::getReturnUrl());;
-            }
+            return redirect()->action('AccountSubscriptionController@index');
         }
         
         return view('cashier::braintree.autoBillingDataUpdate', [

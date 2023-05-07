@@ -4,11 +4,15 @@ namespace Ace\Cashier\Controllers;
 
 use Ace\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log as LaravelLog;
+use Ace\Cashier\Cashier;
 use Ace\Cashier\Services\PaystackPaymentGateway;
 use Ace\Library\Facades\Billing;
 use Ace\Model\Setting;
+use Ace\Library\AutoBillingData;
 use Ace\Model\Invoice;
-use Ace\Cashier\Library\TransactionVerificationResult;
+use Ace\Library\TransactionVerificationResult;
+use Ace\Model\Transaction;
 
 class PaystackController extends Controller
 {
@@ -97,23 +101,30 @@ class PaystackController extends Controller
                 return new TransactionVerificationResult(TransactionVerificationResult::RESULT_DONE);
             });
 
-            return redirect()->away(Billing::getReturnUrl());;
+            return redirect()->action('AccountSubscriptionController@index');
+        }
+
+        if ($service->getCard($invoice->customer)) {
+            return view('cashier::paystack.charging', [
+                'service' => $service,
+                'invoice' => $invoice,
+            ]);
         }
 
         if ($request->isMethod('post')) {
             try {
-                $invoice->checkout($service, function($invoice) use ($service, $request) {
-                    // check pay
-                    $service->verifyPayment($invoice, $request->reference);
-                    
+                // check pay
+                $service->verifyPayment($invoice, $request->reference);
+
+                $invoice->checkout($service, function($invoice) {
                     return new TransactionVerificationResult(TransactionVerificationResult::RESULT_DONE);
                 });
 
-                return redirect()->away(Billing::getReturnUrl());;
+                return redirect()->action('AccountSubscriptionController@index');
             } catch (\Exception $e) {
                 // return with error message
                 $request->session()->flash('alert-error', $e->getMessage());
-                return redirect()->away(Billing::getReturnUrl());;
+                return redirect()->action('AccountSubscriptionController@index');
             }
         }
 
@@ -143,7 +154,7 @@ class PaystackController extends Controller
         // autopay
         $service->autoCharge($invoice);
 
-        return redirect()->away(Billing::getReturnUrl());;
+        return redirect()->action('AccountSubscriptionController@index');
     }
 
     /**
@@ -155,6 +166,9 @@ class PaystackController extends Controller
      **/
     public function autoBillingDataUpdate(Request $request)
     {
-        return redirect()->away(Billing::getReturnUrl());;
+        // Get current customer
+        $service = $this->getPaymentService();
+        
+        return redirect()->action('AccountSubscriptionController@index');
     }
 }

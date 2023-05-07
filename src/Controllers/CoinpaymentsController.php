@@ -4,11 +4,15 @@ namespace Ace\Cashier\Controllers;
 
 use Ace\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log as LaravelLog;
+use Ace\Cashier\Cashier;
 use Ace\Cashier\Services\CoinpaymentsPaymentGateway;
 use Ace\Library\Facades\Billing;
 use Ace\Model\Setting;
 use Ace\Model\Invoice;
-use Ace\Cashier\Library\TransactionVerificationResult;
+use Ace\Library\TransactionVerificationResult;
+use Ace\Model\Transaction;
+use Ace\Library\AutoBillingData;
 
 class CoinpaymentsController extends Controller
 {
@@ -71,6 +75,21 @@ class CoinpaymentsController extends Controller
             'gateway' => $gateway,
         ]);
     }
+
+    /**
+     * Get return url.
+     *
+     * @return string
+     **/
+    public function getReturnUrl(Request $request)
+    {
+        $return_url = $request->session()->get('checkout_return_url', Cashier::public_url('/'));
+        if (!$return_url) {
+            $return_url = Cashier::public_url('/');
+        }
+
+        return $return_url;
+    }
     
     /**
      * Get current payment service.
@@ -101,7 +120,7 @@ class CoinpaymentsController extends Controller
 
         // already paid
         if ($invoice->isPaid()) {
-            return redirect()->away(Billing::getReturnUrl());;
+            return redirect()->action('AccountSubscriptionController@index');
         }
 
         // exceptions
@@ -115,13 +134,13 @@ class CoinpaymentsController extends Controller
                 return new TransactionVerificationResult(TransactionVerificationResult::RESULT_DONE);
             });
 
-            return redirect()->away(Billing::getReturnUrl());;
+            return redirect()->action('AccountSubscriptionController@index');
         }
 
         if ($request->isMethod('post')) {
             $service->charge($invoice);
 
-            return redirect()->away(Billing::getReturnUrl());;
+            return redirect()->action('AccountSubscriptionController@index');
         }
 
         if ($service->getData($invoice) !== null && isset($service->getData($invoice)['txn_id'])) {

@@ -1,12 +1,12 @@
 <?php
 namespace Ace\Cashier\Services;
 
-use Ace\Cashier\Interfaces\PaymentGatewayInterface;
+use Ace\Library\Contracts\PaymentGatewayInterface;
 use Carbon\Carbon;
 use Ace\Cashier\Cashier;
 use Ace\Cashier\Library\CoinPayment\CoinpaymentsAPI;
 use Ace\Model\Invoice;
-use Ace\Cashier\Library\TransactionVerificationResult;
+use Ace\Library\TransactionVerificationResult;
 use Ace\Model\Transaction;
 
 class CoinpaymentsPaymentGateway implements PaymentGatewayInterface
@@ -18,9 +18,7 @@ class CoinpaymentsPaymentGateway implements PaymentGatewayInterface
     public $receiveCurrency;
     public $coinPaymentsAPI;
     public $active=false;
-
-    public const TYPE = 'coinpayments';
-
+    
     // Contruction
     public function __construct($merchantId, $publicKey, $privateKey, $ipnSecret, $receiveCurrency)
     {
@@ -38,22 +36,17 @@ class CoinpaymentsPaymentGateway implements PaymentGatewayInterface
 
     public function getName() : string
     {
-        return trans('cashier::messages.coinpayments');
+        return 'Coinpayments';
     }
 
     public function getType() : string
     {
-        return self::TYPE;
+        return 'coinpayments';
     }
 
     public function getDescription() : string
     {
-        return trans('cashier::messages.coinpayments.description');
-    }
-
-    public function getShortDescription() : string
-    {
-        return trans('cashier::messages.coinpayments.short_description');
+        return 'Receive payment from a cryptocurrency like Bitcoin, Monero, ZCash, etc.';
     }
 
     public function validate()
@@ -168,7 +161,7 @@ class CoinpaymentsPaymentGateway implements PaymentGatewayInterface
                 $result = $gateway->doCharge($invoice->customer, [
                     'id' => $invoice->uid,
                     'amount' => $invoice->total(),
-                    'currency' => $invoice->getCurrencyCode(),
+                    'currency' => $invoice->currency->code,
                     'description' => trans('messages.pay_invoice', [
                         'id' => $invoice->uid,
                     ]),
@@ -362,10 +355,5 @@ class CoinpaymentsPaymentGateway implements PaymentGatewayInterface
     public function getRates()
     {
         return $this->coinPaymentsAPI->getRates();
-    }
-
-    public function getMinimumChargeAmount($currency)
-    {
-        return 0;
     }
 }

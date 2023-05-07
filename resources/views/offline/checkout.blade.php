@@ -1,13 +1,18 @@
-@extends('layouts.core.frontend')
+@extends('layouts.frontend')
 
 @section('title', trans('messages.subscriptions'))
+
+@section('page_script')
+    <script type="text/javascript" src="{{ URL::asset('assets/js/plugins/forms/styling/uniform.min.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/validate.js') }}"></script>
+@endsection
 
 @section('page_header')
 
     <div class="page-title">
         <ul class="breadcrumb breadcrumb-caret position-right">
-            <li class="breadcrumb-item"><a href="{{ \Ace\Cashier\Cashier::lr_action("HomeController@index") }}">{{ trans('messages.home') }}</a></li>
-            <li class="breadcrumb-item active">{{ trans('messages.subscription') }}</li>
+            <li><a href="{{ \Ace\Cashier\Cashier::lr_action("HomeController@index") }}">{{ trans('messages.home') }}</a></li>
+            <li class="active">{{ trans('messages.subscription') }}</li>
         </ul>
     </div>
 
@@ -38,11 +43,11 @@
                     >{{ trans('cashier::messages.offline.claim_payment') }}</button>
                 </form>
 
-                <form id="cancelForm" method="POST" action="{{ action('SubscriptionController@cancelInvoice', [
+                <form id="cancelForm" method="POST" action="{{ action('AccountSubscriptionController@cancelInvoice', [
                             'invoice_uid' => $invoice->uid,
                 ]) }}">
                     {{ csrf_field() }}
-                    <a href="{{ Billing::getReturnUrl() }}">
+                    <a href="{{ action('AccountSubscriptionController@index') }}">
                         {{ trans('cashier::messages.go_back') }}
                     </a>
                 </form>
@@ -51,13 +56,9 @@
         </div>
         <div class="col-md-2"></div>
         <div class="col-md-4">
-            <div class="card shadow-sm rounded-3 px-2 py-2 mb-4">
-                <div class="card-body p-4">
-                    @include('invoices.bill', [
-                        'bill' => $invoice->getBillingInfo(),
-                    ])
-                </div>
-            </div>
+            @include('invoices.bill', [
+                'bill' => $invoice->getBillingInfo(),
+            ])
         </div>
     </div>
 @endsection

@@ -7,18 +7,16 @@ use Stripe\Token as StripeToken;
 use Stripe\Customer as StripeCustomer;
 use Stripe\Subscription as StripeSubscription;
 use Ace\Cashier\Cashier;
-use Ace\Cashier\Interfaces\PaymentGatewayInterface;
+use Ace\Library\Contracts\PaymentGatewayInterface;
 use Carbon\Carbon;
 use Ace\Model\Invoice;
-use Ace\Cashier\Library\TransactionVerificationResult;
+use Ace\Library\TransactionVerificationResult;
 use Ace\Model\Transaction;
 
 class OfflinePaymentGateway implements PaymentGatewayInterface
 {
     protected $paymentInstruction;
     protected $active = false;
-
-    public const TYPE = 'offline';
 
     public function __construct($paymentInstruction)
     {
@@ -29,22 +27,17 @@ class OfflinePaymentGateway implements PaymentGatewayInterface
 
     public function getName() : string
     {
-        return trans('cashier::messages.offline');
+        return 'Offline';
     }
 
     public function getType() : string
     {
-        return self::TYPE;
+        return 'offline';
     }
 
     public function getDescription() : string
     {
-        return trans('cashier::messages.offline.description');
-    }
-
-    public function getShortDescription() : string
-    {
-        return trans('cashier::messages.offline.short_description');
+        return 'Receive payments outside of the application';
     }
 
     public function validate()
@@ -115,10 +108,5 @@ class OfflinePaymentGateway implements PaymentGatewayInterface
         } else {
             return trans('cashier::messages.offline.payment_instruction.default');
         }
-    }
-    
-    public function getMinimumChargeAmount($currency)
-    {
-        return 0;
     }
 }

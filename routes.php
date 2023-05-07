@@ -18,7 +18,6 @@ Route::group(['middleware' => ['web'], 'namespace' => 'Ace\Cashier\Controllers']
     Route::post('/cashier/offline/{invoice_uid}/claim', 'OfflineController@claim');
 
     // Stripe
-    Route::match(['get', 'post'], '/cashier/stripe/{invoice_uid}/payment-auth', 'StripeController@paymentAuth');
     Route::match(['get', 'post'], '/cashier/stripe/settings', 'StripeController@settings');
     Route::match(['get', 'post'], '/cashier/stripe/checkout/{invoice_uid}', 'StripeController@checkout');
     Route::match(['get', 'post'], '/cashier/stripe/auto-billing-update', 'StripeController@autoBillingDataUpdate');
